@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>levithegoat Middle Man</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#070a10;color:#fff}
+header{padding:20px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #202633}
+.logo{font-size:22px;font-weight:900}.logo span{color:#55a7ff}nav a{color:#aaa;text-decoration:none;margin-left:18px}
+.hero{padding:75px 7%;text-align:center;background:radial-gradient(circle at 50% 0,#16345a66,transparent 55%)}
+h1{font-size:50px;margin:0 0 15px}.hero p{max-width:650px;margin:auto;color:#aab3c2;line-height:1.6}
+.btn,button{display:inline-block;margin-top:22px;padding:14px 22px;border:0;border-radius:10px;background:#257cff;color:#fff;text-decoration:none;font-weight:900;cursor:pointer}
+section{padding:50px 7%;max-width:1050px;margin:auto}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card,form{background:#10151f;border:1px solid #222b39;border-radius:16px;padding:23px}.muted{color:#9ba6b7;line-height:1.55}
+label{display:block;margin-top:5px;font-weight:700}input,textarea{width:100%;margin:8px 0 16px;padding:13px;border-radius:9px;border:1px solid #30394a;background:#090d14;color:#fff}
+button{width:100%;margin-top:5px}.notice{font-size:13px;color:#9ba6b7;margin-top:13px}
+.success{display:none;margin-top:18px;padding:18px;border-radius:12px;background:#0c1828;border:1px solid #234d7d}
+code{font-size:32px;letter-spacing:7px;color:#55a7ff;font-weight:900}
+footer{text-align:center;padding:35px;color:#707b8d;border-top:1px solid #202633}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.hero h1{font-size:38px}nav{display:none}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">levithegoat <span>MIDDLE MAN</span></div>
+<nav><a href="#how">How It Works</a><a href="#request">Start Deal</a><a href="https://discord.gg/FpGgD4htw" target="_blank">Discord</a></nav>
+</header>
+
+<div class="hero">
+<h1>Trade With A Middleman.</h1>
+<p>Start your transaction, receive a private 4-digit code, then join our Discord and open a ticket with your code.</p>
+<a class="btn" href="#request">Start A Deal</a>
+<a class="btn" href="https://discord.gg/FpGgD4htw" target="_blank" style="margin-left:8px;background:#5865F2">Join Discord</a>
+</div>
+
+<section id="how">
+<h2>How It Works</h2>
+<div class="grid">
+<div class="card"><h3>1. Submit</h3><p class="muted">Enter the basic buyer/seller and item information.</p></div>
+<div class="card"><h3>2. Get Code</h3><p class="muted">Your transaction gets a unique 4-digit code. Save it.</p></div>
+<div class="card"><h3>3. Open Ticket</h3><p class="muted">Join Discord, open a ticket, and send the 4-digit code so the transaction can be reviewed.</p></div>
+</div>
+</section>
+
+<section id="request">
+<h2>Start A Transaction</h2>
+<form id="dealForm" action="https://formsubmit.co/yungstunna1of1@gmail.com" method="POST">
+<input type="hidden" name="_subject" value="New levithegoat Middle Man Transaction">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_template" value="table">
+
+<label>Your username</label>
+<input required id="name" name="Your Username" placeholder="Example: Levi">
+
+<label>Other person's username</label>
+<input required id="other" name="Other Person's Username" placeholder="Example: Buyer123">
+
+<label>Item / service</label>
+<input required id="item" name="Item / Service" placeholder="Example: PS5 account">
+
+<label>Deal amount</label>
+<input required id="amount" name="Deal Amount" placeholder="Example: $50">
+
+<label>Notes</label>
+<textarea id="notes" name="Notes" rows="4" placeholder="Extra information about the deal"></textarea>
+
+<input type="hidden" id="transactionCode" name="4-Digit Transaction Code">
+
+<button type="submit">Submit Transaction</button>
+<p class="notice">Never enter a PSN password, 2FA code, recovery code, or payment-card number here.</p>
+
+<div class="success" id="success">
+<b>Transaction submitted.</b>
+<p>Your 4-digit code is:</p>
+<code id="code"></code>
+<p class="muted">Save this code, then join the Discord and open a ticket with it.</p>
+<a class="btn" href="https://discord.gg/FpGgD4htw" target="_blank">Open Discord</a>
+</div>
+</form>
+</section>
+
+<footer>© 2026 levithegoat Middle Man • Transactions are handled through Discord.</footer>
+
+<script>
+function makeCode(){
+ return String(Math.floor(1000 + Math.random()*9000));
+}
+const form=document.getElementById("dealForm");
+form.addEventListener("submit", async function(e){
+ e.preventDefault();
+ const code=makeCode();
+ document.getElementById("transactionCode").value=code;
+ document.getElementById("code").textContent=code;
+ const submitButton=form.querySelector('button[type="submit"]');
+ submitButton.disabled=true;
+ submitButton.textContent="Submitting...";
+ try {
+   const response=await fetch("https://formsubmit.co/ajax/yungstunna1of1@gmail.com",{
+     method:"POST",
+     headers:{"Content-Type":"application/json","Accept":"application/json"},
+     body:JSON.stringify(Object.fromEntries(new FormData(form)))
+   });
+   if(!response.ok) throw new Error("Submission failed");
+   document.getElementById("success").style.display="block";
+   submitButton.style.display="none";
+ } catch(err) {
+   alert("We couldn't submit the transaction. Please try again.");
+   submitButton.disabled=false;
+   submitButton.textContent="Submit Transaction";
+ }
+});
+</script>
+</body>
+</html>
